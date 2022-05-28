@@ -12,20 +12,20 @@ Prevalent literature evaluates the merits of Meta-learning (ML) approaches on ta
 ## Setup and Organization
 The code repository is organized into the following sub-modules:
 <ul>
-<li> <b>algorithms</b>
-<p> Implements a generic metalearning framework (currently) supporting the algorithms - MAML, MetaSGD and MetaLSTM++ </p>
+<li> <b>algorithms</b>:
+ Implements a generic metalearning framework (currently) supporting the algorithms - MAML, MetaSGD and MetaLSTM++ 
 </li>
 
-<li> <b>analysis</b>
-<p> Contains the code for studying the properties and behaviours of the converged initialization and optimization based meta-learning models. </p>
+<li> <b>analysis</b>:
+Contains the code for studying the properties and behaviours of the converged initialization and optimization based meta-learning models.
 </li>
 
-<li> <b>datasets</b>
-<p> Implements few-shot learning task creation presently supporting the omniglot and tieredImagenet datasets. Adapted from the <a href="http://learn2learn.net"> learn2learn </a> library. </p>
+<li> <b>datasets</b>:
+Implements few-shot learning task creation presently supporting the omniglot and tieredImagenet datasets. Adapted from the <a href="http://learn2learn.net"> learn2learn </a> library. 
 </li>
 
-<li> <b>models</b>
-<p> Contains the model definition for the Conv4 backbone (base model) and the learned optimizer (MetaLSTM++). </p>
+<li> <b>models</b>:
+ Contains the model definition for the Conv4 backbone (base model) and the learned optimizer (MetaLSTM++).
 </li>
 
 </ul>
@@ -33,8 +33,8 @@ The code repository is organized into the following sub-modules:
 Functionality of the remaining python scripts in the root directory:
 <ul>
 
-<li> <b>config.py</b>
-<p>  Implements the Config class that defines the configuration of the experiment to run. Set the member variables according to the experiment you wish to run. The key variables and their supported values are defined below:
+<li> <b>config.py</b>: 
+ Implements the Config class that defines the configuration of the experiment to run. Set the member variables according to the experiment you wish to run. The key variables and their supported values are defined below:
         <ol>
             <li>
                 <i> algo </i> : The meta-learning algorithm. Takes as value one of: ('MAML' , 'MetaSGD' , 'TA_LSTM'). TA_LSTM is  used as an alias for MetaLSTM++.
@@ -57,13 +57,12 @@ Functionality of the remaining python scripts in the root directory:
 </p>
 </li>
 
-<li> <b>main.py</b>
-<p>  Used to train or test meta-learning algorithms defined using the Config class.</p>
+<li> <b>main.py</b>:
+Used to train or test meta-learning algorithms defined using the Config class.
 </li>
 
-<li> <b>parser.py</b> 
-<p> Used to update experiment configuration from the command line. The configuration required should be passed as a dict after the <b>--arg</b> flag. 
-</p>
+<li> <b>parser.py</b>:
+Used to update experiment configuration from the command line. The configuration required should be passed as a dict after the <b>--arg</b> flag.
 </li>
 </ul>
 
