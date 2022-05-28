@@ -55,7 +55,6 @@ def metalstm_analysis(args):
     config.dataset = args["dataset"]
     config = process_config(config)
     config.adaptation_steps = args["adaptation_steps"]
-    config.test_size = 50
     
     config.base_learner = Learner(config.image_size, config.bn_eps, config.bn_momentum, config.n_class,n_channels=config.n_channels,n_filters=config.n_filters).to(config.dev)
     config.meta_opt     = torch.optim.Adam
@@ -78,7 +77,6 @@ def maml_analysis(args):
     config = process_config(config)
     config.adaptation_steps = args["adaptation_steps"]
     config.base_lr = args["base_lr"]
-    config.test_size = 50
     
     config.base_learner = Learner(config.image_size, config.bn_eps, config.bn_momentum, config.n_class,n_channels=config.n_channels,n_filters=config.n_filters).to(config.dev)
     config.meta_opt    = torch.optim.Adam
@@ -87,19 +85,7 @@ def maml_analysis(args):
     maml.set_init(torch.from_numpy(args["metalstm_init"]).to(config.dev))
     acc_mu,acc_std = maml.meta_validate(load_ckpt=None)
     tune.report(mean_accuracy=acc_mu)
-    
-    # if(f"{n_class}.{n_shot}.MetaLSTM++ x MAML" not in plot_data or f"{n_class}.{n_shot}.MetaLSTM++ x MAML" in redo):                
-        
-    #     maml.set_init(metalstm_init)
-    #     acc_mu,acc_std = maml.meta_test(load_ckpt=False)
-    #     plot_data[f"{n_class}.{n_shot}.MetaLSTM++ x MAML"] = {"mean":acc_mu,"std":acc_std}
-        
-    #     metalstm.set_init(maml_init)
-    #     acc_mu,acc_std = metalstm.meta_test(load_ckpt=False)
-    #     plot_data[f"{n_class}.{n_shot}.MAML x MetaLSTM++"] = {"mean":acc_mu,"std":acc_std}
 
-    # with open(plot_file,'wb') as file:
-    #     pickle.dump(plot_data,file)
 
 def run_exp(n_class,n_shot,dataset,maml_init,metalstm_init):
     

@@ -15,6 +15,10 @@ if __name__ == '__main__':
    config.base_learner = Learner(config.image_size, config.bn_eps, config.bn_momentum, config.n_class,n_channels=config.n_channels,n_filters=config.n_filters).to(config.dev)
    config.meta_opt     = torch.optim.Adam
    model               = algos[config.algo](config) 
+   
+   if(config.mode == "train"):
+      model.meta_train()   
+
    if("TA_LSTM" in config.algo):
       for param in model.meta_learner.parameters():
             param.requires_grad = False

@@ -24,6 +24,18 @@ def accuracy(predictions, targets):
     return 100*(predictions == targets).sum().float() / targets.size(0)
 
 def test_split(batch,shots,ways,device,dataset):
+    """ Generates a meta-learning task by splitting a batch of labelled datapoints into support and query sets. 
+
+    Args:
+        batch (tuple): A 2-tuple of tensors comprising the data and labels 
+        shots (int): The no. of examples per class
+        ways (int): The no of classes
+        device (torch.device): The compute device to be assigned to the tensors 
+        dataset (str): The dataset name
+
+    Returns:
+        tuple: Returns a 4-(tensor) tuple comprising the support datapoints, support labels, query datapoints and query labels 
+    """
     data, labels = batch
     data, labels = data.to(device), labels.to(device)
     if("omniglot" in dataset):
@@ -129,10 +141,8 @@ def resume_ckpt(metalearner, optim, resume, device,ckpt_no=None):
     return last_episode, metalearner, optim
 
 
-
 def plot(history,config):
     sns.set_style("whitegrid")
-    
     for plot_no,key_1 in enumerate(history):
         plt.figure(figsize=(16,8))
         plt.title("{}".format(config.algo),fontsize=18)
@@ -156,14 +166,7 @@ def save_history(training_history,config):
     with open("{}/config.txt".format(config.LOG_DIR), "wt") as file:
         pprint.pprint(vars(config), stream=file)
 
-    data = training_history    
-    # if(os.path.exists("{}/training_history.json".format(config.LOG_DIR)) and config.resume):    
-    #     with open("{}/training_history.json".format(config.LOG_DIR), "rb") as file:
-    #         data = pickle.load(file)
-    #         for key_1 in data:
-    #             for key_2 in data[key_1]:
-    #                 data[key_1][key_2].extend(training_history[key_1][key_2])
-            
+    data = training_history            
     with open("{}/training_history.json".format(config.LOG_DIR), "wb") as file:
         pickle.dump(data, file)
     

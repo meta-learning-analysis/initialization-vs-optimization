@@ -17,12 +17,14 @@ class Trainer():
     """An abstract Base Trainer skeleton for meta-learning. Supports task creation, sampling, meta-training,
      meta-validation, meta-testing, checkpointing and performance logging. Concrete classes (meta-learning algorithms)
     that extends this class are required to implement the ``build_learner`` and ``adapt`` functions.
+
     """
     def __init__(self, args):
         """_summary_
 
         Args:
-            args (dict): The config file of class Config containing the experiment details
+            :parameter args (dict): The config file of class Config containing the experiment details
+
         """
         super(Trainer, self).__init__()
         # Set experiment hyperparameters

@@ -13,8 +13,6 @@ from algorithms import algos
 import os
 from datasets import *
 
-has_incorrectly_labelled_lr = []
-
 def parse_arguments():
     config = Config()
     parser      = argparse.ArgumentParser()
@@ -62,9 +60,5 @@ def parse_arguments():
                         print("setting ",param, " to ",dtype(line.split(":")[1].strip(",\n")))
                         setattr(config, param, dtype(line.split(":")[1].strip(",\n")))
     (config.n_filters, config.n_channels, config.image_size) = (64,1,28) if config.dataset == "omniglot" else (32,3,84)
-    if(config.algo in has_incorrectly_labelled_lr):
-        temp = config.meta_lr
-        config.meta_lr = config.base_lr
-        config.base_lr = temp
     
     return config

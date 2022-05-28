@@ -31,20 +31,13 @@ if __name__ == '__main__':
     dataset = "tiered-imagenet"
     redo = []
     colors = list(cm.Set1(np.linspace(0, 1, len(models))))
-    # n_ways  = [20, 40, 60, 80, 100, 150, 200] #omniglot
-    n_ways  = [5,20,40,90] #tiered-imagenet
+    n_ways  = [20, 40, 60, 80, 100, 150, 200] #omniglot
+    # n_ways  = [5,20,40,90] #tiered-imagenet
     n_shots = [1]
     plot_data = {}
     
     os.makedirs(f"results/{dataset}/files",exist_ok=True)
     plot_file = f"results/{dataset}/files/stress-test"
-
-    ckpt_file = f"results/{dataset}/files/best-ckpt-local"
-    ckpt_data = {}
-    if(os.path.exists(ckpt_file)):
-        with open(ckpt_file,'rb') as file:
-            ckpt_data = pickle.load(file)
-            print(ckpt_data)
 
     if(os.path.exists(plot_file)):
         with open(plot_file,'rb') as file:
@@ -68,7 +61,6 @@ if __name__ == '__main__':
                 if(f"{n_class}.{n_shot}.{model_name}" not in plot_data or f"{n_class}.{n_shot}.{model_name}" in redo or f"{model_name}" in redo):
                     
                     model               = algos[config.algo](config) 
-
                     # No need for gradient-accumulation during meta-testing. Saves memory
                     if("TA_LSTM" in model_name):
                         for param in model.meta_learner.parameters():

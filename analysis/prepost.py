@@ -24,7 +24,6 @@ def run_analysis(task_batch,base_learner,phis,config):
     for param in base_learner.parameters():
         param.requires_grad = False
         
-    # base_learner.model = torch.nn.DataParallel(base_learner.model).to(torch.device("cuda"))
     entropy = Entropy()
     euclidean_lsn = SoftNearestNeighbourLoss(distance='euclidean')
     cosine_lsn = SoftNearestNeighbourLoss(distance='cosine')
@@ -77,7 +76,6 @@ if __name__ == '__main__':
     n_shots = [1]
     plot_data = {}
     plot_file = f"results/{dataset}/files/prepost"
-    # redo = ["MAML","MetaSGD","TA_LSTM"]
     redo = []
     if(os.path.exists(plot_file)):
             with open(plot_file,'rb') as file:
@@ -90,7 +88,6 @@ if __name__ == '__main__':
                 print(f" \t {n_class} WAY {n_shot} SHOT - {model_name} ")
                 
                 config = Config()
-                config.test_size = 10
                 config.n_class = n_class
                 config.n_shot = n_shot
                 config.dataset = dataset
@@ -108,8 +105,6 @@ if __name__ == '__main__':
                         for param in model.meta_learner.parameters():
                             param.requires_grad = False
                     trajectory = model.meta_test(return_trajectory=True)
-                    # for key in trajectory:
-                    #     print(trajectory[key])
                     with torch.no_grad():
                         batch = [trajectory[tid]["batch"] for tid in trajectory]
                         phis  = np.array([trajectory[tid]["model"] for tid in trajectory])
@@ -128,7 +123,6 @@ if __name__ == '__main__':
     
     for metric in metrics_to_plot:
         for n_shot in n_shots:
-            # fig,axs = plt.subplots(1,len(models),figsize=(5*len(models),5))
             for n_class in n_ways:
                 colors = iter(cm.Set1(np.linspace(0, 1, len(models))))
                 plt.figure(figsize=(5,5))

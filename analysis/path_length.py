@@ -43,8 +43,7 @@ if __name__ == '__main__':
     n_shots = [1]
     plot_data = {}
     plot_file = f"results/{dataset}/files/pathlen"
-    redo = ["all"]
-
+    
     if(os.path.exists(plot_file)):
         with open(plot_file,'rb') as file:
             plot_data = pickle.load(file)
@@ -56,7 +55,6 @@ if __name__ == '__main__':
                 print(f" \t {n_class} WAY {n_shot} SHOT - {model_name} ")
                 
                 config = Config()
-                config.test_size = 100
                 config.n_class = n_class
                 config.n_shot = n_shot
                 config.dataset = dataset
@@ -95,16 +93,11 @@ if __name__ == '__main__':
     
             for i,model in enumerate(models):
                 x_label = [f"{a}" for a in n_ways]
-                
-                # x_axis = np.arange(len(x_label))
-                # y_axis = np.array([plot_data[f"{x}.{n_shot}.{model}"][f"{metric}"] for x in x_axis])
                 for i,x in enumerate(n_ways):
                     df_data[i].append(plot_data[f"{x}.{n_shot}.{model}"][f"{metric}"])
                 df_labels.append(fig_labels[model]) 
         
             df = pd.DataFrame(df_data,columns=df_labels)
-            # plt.bar(x_axis-width/len(models),y_axis,label=f"{model}")
-            
             df.plot(x='Ways',
             kind='bar',
             stacked=False,

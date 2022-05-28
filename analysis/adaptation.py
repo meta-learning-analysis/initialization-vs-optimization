@@ -83,7 +83,6 @@ if __name__ == '__main__':
                 print(f" \t {n_class} WAY {n_shot} SHOT - {model_name} ")
                 
                 config = Config()
-                config.test_size = 300
                 config.n_class = n_class
                 config.dataset = dataset
                 config.n_shot = n_shot
@@ -117,7 +116,6 @@ if __name__ == '__main__':
 
     for metric in metrics_to_plot:
         for n_shot in n_shots:
-            # fig,axs = plt.subplots(1,len(models),figsize=(5*len(models),5))
             for i,model in enumerate(models):
                 plt.figure(figsize=(5,5))
                 colors = iter(cm.Set1(np.linspace(0, 1, len(n_ways))))
@@ -151,7 +149,6 @@ if __name__ == '__main__':
 
     for metric in metrics_to_plot:
         for n_shot in n_shots:
-            # fig,axs = plt.subplots(1,len(models),figsize=(5*len(models),5))
             for n_class in n_ways:
                 colors = iter(cm.Set1(np.linspace(0, 1, len(models))))
                 plt.figure(figsize=(5,5))

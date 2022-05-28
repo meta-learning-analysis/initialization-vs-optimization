@@ -4,7 +4,6 @@ import random
 import numpy as np 
 import pickle 
 
-has_incorrectly_labelled_lr = []#["MAML"]
 
 def load_or_run_exp(model,n_class,n_shot,model_name,load_saved_trajectory):
     os.makedirs("results/files/trajectories",exist_ok=True)
@@ -23,19 +22,8 @@ def load_or_run_exp(model,n_class,n_shot,model_name,load_saved_trajectory):
             
 def process_config(config):
     config.dev  = torch.device("cuda") 
-    # os.environ["CUDA_VISIBLE_DEVICES"]="{}".format(config.gpu)
-
-    # EXP_DIR  = "./experiments/{}WAY_{}SHOT/{}".format(config.n_class,config.n_shot,config.algo)
-    
-    if("omniglot" in config.dataset):
-        EXP_DIR  = "/home/sahil/drives/shivay/scratch/Hansin/exp/redo/{}WAY_{}SHOT/{}".format(config.n_class,config.n_shot,config.algo)
-    else:
-        # EXP_DIR  = "./experiments/{}/{}WAY_{}SHOT/{}".format(config.dataset,config.n_class,config.n_shot,config.algo)
-        # EXP_DIR  = "/home/sahil/drives/shivay/scratch/Hansin/exp/redo/{}/{}WAY_{}SHOT/{}".format(config.dataset,config.n_class,config.n_shot,config.algo)
-        EXP_DIR  = "/home/sahil/drives/shivay/scratch/lsaiml-metalearning/experiments/{}/{}WAY_{}SHOT/{}".format(config.dataset,config.n_class,config.n_shot,config.algo)
-        
     dir_path = os.path.dirname(os.path.realpath(__file__))
-    print(dir_path)
+    EXP_DIR  = "{}/../experiments/{}/{}WAY_{}SHOT/{}".format(dir_path,config.dataset,config.n_class,config.n_shot,config.algo)
     DATA_DIR = "{}/../data/{}".format(dir_path,config.dataset)
     LOG_DIR  = os.path.join(EXP_DIR,'logs')
     CKPT_DIR = os.path.join(EXP_DIR,'ckpt','ckpt')
@@ -48,7 +36,6 @@ def process_config(config):
         CKPT_DIR = os.path.join(EXP_DIR,'ckpts')
 
     config.DATA_DIR, config.LOG_DIR, config.CKPT_DIR, config.EXP_DIR  = DATA_DIR, LOG_DIR, CKPT_DIR, EXP_DIR
-
     config_file  = os.path.join(LOG_DIR, "config.txt")
     hyperparams  = [('seed',int),('adaptation_steps',int), ('base_lr',float), ('meta_lr',float),('val_freq',int),('num_iterations',int)]
     if(os.path.exists(config_file)):
@@ -58,15 +45,9 @@ def process_config(config):
                     if(param in line):
                         setattr(config, param, dtype(line.split(":")[1].strip(",\n")))
                         print(param,getattr(config,param))
-
-    if(config.algo in has_incorrectly_labelled_lr):
-        temp = config.meta_lr
-        config.meta_lr = config.base_lr
-        config.base_lr = temp
     
     (config.n_filters, config.n_channels, config.image_size) = (64,1,28) if config.dataset == "omniglot" else (32,3,84)
     random.seed(config.seed)
     np.random.seed(config.seed)
-    torch.manual_seed(config.seed)
-    
+    torch.manual_seed(config.seed)    
     return config
