@@ -104,7 +104,7 @@ If you find this work useful in your research, kindly consider citing the follow
 This project is distributed under [MIT license](LICENSE).
 
 ```c
-Copyright (c) 2020-present NAVER Corp.
+
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
